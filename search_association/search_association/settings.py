@@ -26,7 +26,8 @@ SECRET_KEY = 'django-insecure-+(_#aquprnv&8-i$+vq5(4huw0d*elwm+nqje4a@uup-m7&kft
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = ['192.168.1.2']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -80,7 +81,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
         'NAME': 'GAMEANALYSIS',  # 数据库名
-        "HOST": "127.0.0.1",
+        "HOST": "192.168.1.2",
         "USER": "DEV",
         "PASSWORD": "dev2023",
         "PORT": 3306
@@ -89,7 +90,7 @@ DATABASES = {
     'game_analysis': {
         'ENGINE': 'django.db.backends.mysql',  # 数据库引擎
         'NAME': 'GAMEANALYSIS',  # 数据库名
-        "HOST": "127.0.0.1",
+        "HOST": "192.168.1.2",
         "USER": "DEV",
         "PASSWORD": "dev2023",
         "PORT": 3306
