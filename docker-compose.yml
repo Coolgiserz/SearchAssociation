@@ -1,0 +1,14 @@
+version: "3"
+services:
+  app:
+    network_mode: "bridge"
+    restart: always
+    build: .
+    command: "python3 manage.py runserver 0.0.0.0:8000 --noreload"
+    volumes:
+      - .:/root/code
+    ports:
+      - "127.0.0.1:22999:8000"
+      - "192.168.1.2:22999:8000"
+
+
