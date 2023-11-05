@@ -1,5 +1,4 @@
 import os
-# django.setup()
 from django.apps import AppConfig
 from django.conf import settings
 from utils.trie.struct_ import TrieTree
@@ -17,7 +16,7 @@ class GameConfig(AppConfig):
         # TODO： 初始化完之后对Trie树进行持久化存储
         print("初始化联想算法...")
 
-        if os.environ.get("RUN_MAIN"):
+        if not os.environ.get("RUN_MAIN"):
 
             # 无需使用noreload标志启动server即可避免ready方法执行两次
             print("game app ready")

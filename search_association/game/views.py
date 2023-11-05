@@ -11,7 +11,7 @@ class AssociativeSearchView(View):
         keyword = requests.GET.get("keyword")
         print(requests.GET.get("keyword"))
         assert isinstance(settings.game_name_association_trie, TrieTree)
-        print(settings.game_name_association_trie.root.children)
+        # print(settings.game_name_association_trie.root.children)
         data = settings.game_name_association_trie.startwith(keyword)
 
         return http.JsonResponse(data=response.make_success_response(data=sorted(data, key=len)),
