@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'game'
+    'game',
+    'industry'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +76,12 @@ WSGI_APPLICATION = 'search_association.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
+# 设置APP对应的数据库路由表：不同APP应用对应不同的数据库
+DATABASES_APPS_MAPPING = {
+    "game": "game_analysis",
+    "industry": "industry"
+}
+DATABASE_ROUTERS = ['search_association.app_db_router.DatabaseAppsRouter']
 
 DATABASES = {
     # 本地测试用数据库
@@ -104,6 +111,15 @@ DATABASES = {
         "PASSWORD": "dev2023",
         "PORT": 3306
     },
+    "industry":{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'industry',
+        'USER': 'industry_test_user',
+        'PASSWORD': 'test123456',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+
 }
 
 
