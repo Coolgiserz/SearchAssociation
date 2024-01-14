@@ -4,6 +4,7 @@ from django.conf import settings
 from utils.trie.struct_ import TrieTree
 
 game_name_association_flag_string = "ASSOCIATION_FLAG_STRING"
+
 class GameConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'game'
@@ -16,8 +17,7 @@ class GameConfig(AppConfig):
         # TODO： 初始化完之后对Trie树进行持久化存储
         print("初始化联想算法...")
 
-        if not os.environ.get("RUN_MAIN"):
-
+        if os.environ.get("RUN_MAIN"):
             # 无需使用noreload标志启动server即可避免ready方法执行两次
             print("game app ready")
             flag = False
@@ -35,7 +35,6 @@ class GameConfig(AppConfig):
                     for name in game_names_obj:
                         tree.insert(name.get("name_zh"))
                     setattr(settings, "game_name_association_trie", tree)
-
                     print("联想算法初始化完成！")
 
 
