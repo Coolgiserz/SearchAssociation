@@ -18,3 +18,5 @@ sqlparse==0.4.4
 toml==0.10.2
 typing_extensions==4.8.0
 zipp==3.17.0
+psycopg2==2.9.9
+psycopg2-binary==2.9.9
