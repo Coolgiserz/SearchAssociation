@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.conf import settings
 from .models import GbIndustry
 from utils.trie.struct_ import TrieTree
+from utils.index.indexers import IndexerProxy
 
 
 # Create your views here.
@@ -37,6 +38,14 @@ def associative_search_with_like_query_prefix(keyword, mode=1):
                              json_dumps_params={'ensure_ascii': False})
 
 
+def associative_search_with_inverted_index(keyword):
+    assert isinstance(settings.industry_name_association_index_proxy, IndexerProxy)
+
+    data = settings.industry_name_association_index_proxy.search_word_with_suggest(keyword)
+    print("基于倒排索引搜索")
+    return http.JsonResponse(data={"data": sorted(data, key=len)}, status=200,
+                             json_dumps_params={'ensure_ascii': False})
+
 class AssociativeSearchView(View):
     def get(self, request):
         print(request)
@@ -47,5 +56,7 @@ class AssociativeSearchView(View):
             return associative_search_with_trie(keyword=keyword)
         elif query_type == '2':
             return associative_search_with_like_query_prefix(keyword=keyword)
-        else:
+        elif query_type == '3':
             return associative_search_with_like_query_prefix(keyword=keyword, mode=2)
+        else:
+            return associative_search_with_inverted_index(keyword=keyword)
