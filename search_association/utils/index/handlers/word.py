@@ -12,7 +12,7 @@ class WordSegIndexHandler(BaseIndexHandler):
             seg_list = jieba.cut_for_search(document)
             return seg_list
         else:
-            raise ValueError()
+            raise ValueError(document)
 
 class WordLetterIndexHandler(BaseIndexHandler):
     """
