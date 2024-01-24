@@ -14,6 +14,9 @@ class IndexPersist(object):
     def search(self, index):
         pass
 
+    def get_indexes(self):
+        pass
+
     def search_prefix(self, word):
         pass
     def index_construction_trigger(self):
@@ -24,7 +27,9 @@ class SimpleMemoryIndexPersist(IndexPersist):
         self.index_map = defaultdict(Counter)
         self.trie = TrieTree()
 
-
+    @property
+    def get_indexes(self):
+        return self.index_map.keys()
     def add_one(self, index, document):
         self.index_map[index][document] += 1
 
