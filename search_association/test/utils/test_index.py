@@ -1,6 +1,7 @@
 import unittest
 import time
 from utils.index.handlers.word import WordSegIndexHandler, WordLetterIndexHandler
+from utils.index.handlers.pinyin import PinyinIndexHandler, get_pinyin, get_first_pinyin_letter
 from utils.index.persist import SimpleMemoryIndexPersist
 from utils.index.indexers import IndexerProxy
 class IndexTestCase(unittest.TestCase):
@@ -13,6 +14,13 @@ class IndexTestCase(unittest.TestCase):
             seg_list = self.word_handler.process_document(case)
             print(f"{case}: {','.join(seg_list)}")
 
+    def test_pinyin_handler(self):
+        pinyin_handler = PinyinIndexHandler()
+        cases = ["AI算法", "机器学习", "OpenAI", "openai", "AI框架", "项目投资事件", "数据库安全","小明硕士毕业于中国科学院计算所，后在日本京都大学深造"]
+        for case in  cases:
+            seg_list = pinyin_handler.process_document(case)
+            print(f"{case}: {','.join(seg_list)}")
+            # print(f"{case}:", get_pinyin(case), get_first_pinyin_letter(case))
     def test_word_handlers(self):
         handlers = (WordLetterIndexHandler(),)
         for handler in handlers:
