@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'game',
-    'industry'
+    'industry',
+    'museum'
 ]
 
 MIDDLEWARE = [
@@ -79,7 +80,8 @@ WSGI_APPLICATION = 'search_association.wsgi.application'
 # 设置APP对应的数据库路由表：不同APP应用对应不同的数据库
 DATABASES_APPS_MAPPING = {
     "game": "game_analysis",
-    "industry": "industry"
+    "industry": "industry",
+    "museum": "museum"
 }
 DATABASE_ROUTERS = ['search_association.app_db_router.DatabaseAppsRouter']
 
@@ -114,6 +116,14 @@ DATABASES = {
     "industry":{
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'industry',
+        'USER': 'industry_test_user',
+        'PASSWORD': 'test123456',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    "museum":{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'cultural',
         'USER': 'industry_test_user',
         'PASSWORD': 'test123456',
         'HOST': 'localhost',
