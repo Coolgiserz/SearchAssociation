@@ -2,8 +2,10 @@
 # @Time: 2024/1/23
 # @Function:
 import asyncio
-from utils.index.handlers.base import BaseIndexHandler
+from utils.index.handlers import WordSegIndexHandler, WordLetterIndexHandler, PinyinIndexHandler
 from utils.index.persist import SimpleMemoryIndexPersist, IndexPersist
+import tqdm
+
 class IndexerProxy(object):
     def __init__(self, persist_class=None):
         self.handlers = []
@@ -15,15 +17,39 @@ class IndexerProxy(object):
 
     def add_handler(self, *handler):
         self.handlers.extend(handler)
+
     def process(self, document):
         for handler in self.handlers:
-            # assert isinstance(handler, BaseIndexHandler)
+            assert hasattr(handler, "process_document")
             indexs = handler.process_document(document)
             for index in indexs:
                 self.persist.add_one(index, document)
 
-    def search_index(self, index:str):
+    def process_documents(self, documents):
+        for document in tqdm.tqdm(documents):
+            self.process(document)
+
+    def get_all_indexes(self):
+        return self.persist.get_indexes
+
+    def search_index(self, index: str):
         return self.persist.search(index.lower())
 
     def search_word_with_suggest(self, word: str):
         return self.persist.search_prefix(word)
+
+
+class SimpleIndexProxy(IndexerProxy):
+    def __init__(self):
+        super().__init__()
+        self.handlers = [WordLetterIndexHandler(),
+                         WordSegIndexHandler(),
+                         PinyinIndexHandler()]
+
+    @classmethod
+    def init_index_proxy_from_words(cls, words):
+        print(f"init index proxy from {len(words)} words")
+        sip = SimpleIndexProxy()
+        sip.process_documents(documents=words)
+        sip.persist.index_construction_trigger()
+        return sip
