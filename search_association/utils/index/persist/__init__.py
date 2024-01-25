@@ -2,8 +2,10 @@
 # @Time: 2024/1/23
 # @Function: Base Class For Index Persist
 
-from collections import defaultdict,Counter
+from collections import defaultdict, Counter
 from utils.trie.struct_ import TrieTree
+
+
 class IndexPersist(object):
     def add_one(self, index, document):
         pass
@@ -19,8 +21,10 @@ class IndexPersist(object):
 
     def search_prefix(self, word):
         pass
+
     def index_construction_trigger(self):
         pass
+
 
 class SimpleMemoryIndexPersist(IndexPersist):
     def __init__(self):
@@ -30,12 +34,12 @@ class SimpleMemoryIndexPersist(IndexPersist):
     @property
     def get_indexes(self):
         return self.index_map.keys()
+
     def add_one(self, index, document):
         self.index_map[index][document] += 1
 
     def search(self, index, desc=True):
-        counter =  self.index_map[index]
-
+        counter = self.index_map[index]
         sorted_keys = [key for key, _ in counter.most_common()]
         if not desc:
             sorted_keys = sorted_keys[::-1]
@@ -44,7 +48,7 @@ class SimpleMemoryIndexPersist(IndexPersist):
     def build_trie(self):
         for index, _ in self.index_map.items():
             # for document, _ in counter.items():
-                self.trie.insert(index.lower())
+            self.trie.insert(index.lower())
 
     def index_construction_trigger(self):
         self.build_trie()
@@ -56,4 +60,3 @@ class SimpleMemoryIndexPersist(IndexPersist):
             res = self.search(index)
             result.extend(res)
         return list(set(result))
-
