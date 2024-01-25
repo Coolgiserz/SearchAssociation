@@ -40,16 +40,19 @@ class IndexerProxy(object):
 
 
 class SimpleIndexProxy(IndexerProxy):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, persist_class):
+        super().__init__(persist_class)
         self.handlers = [WordLetterIndexHandler(),
                          WordSegIndexHandler(),
                          PinyinIndexHandler()]
 
     @classmethod
-    def init_index_proxy_from_words(cls, words):
+    def init_index_proxy_from_words(cls, words, persist_class=None, from_scratch=True):
         print(f"init index proxy from {len(words)} words")
-        sip = SimpleIndexProxy()
-        sip.process_documents(documents=words)
+        sip = SimpleIndexProxy(persist_class)
+        if from_scratch:
+            sip.process_documents(documents=words)
+        else:
+            print("索引已存在")
         sip.persist.index_construction_trigger()
         return sip
